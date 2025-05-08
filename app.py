@@ -35,13 +35,17 @@ I will share the ground level report of the account balances for the month janua
 
 3/ Do not return guides to do calculations or get certain information as the conversation agent (AI) doesn't have any access to the raw data of reporting. Always do all the necessary calculations and return the results.
 
-4/ If the given user message is completely irrelevant to the given report or the data, then you should only return "IRRELEVANT" and nothing else. Not even a word of saying that it is irrelevant. Just output "IRRELEVANT" nothing else.
+4/ If the given user message is completely irrelevant to the given report or the data, then you should only return "IRRELEVANT" and then very briefly say the reason why it is irrelavant after that.
 
-5/ Try to give as much as context as possible as the conversational AI agent's response will completely depend on the response you give. When providing numbers or calculation results always provide the Ground Level attributes you got from the report as reference so it would be easier for the conversational AI agent to explain it to the user. But always give the final result or the total amount first and then go into details.
+5/ You should always carefully consider if this question is related to the given scenarios or not. Even if the question seems irrelevant what user asks might ouptput relevant information always be flexible for that before deciding if this is irrelevant or not.
+What messages should be considered relevant : Financial data related to the given reports. This includes any financial related question or analysis regarding the month of January 2025, November 2024, October 2024 and the previous month, previous year (the exact month a year back) of the each report seperately. This means, the months, December 2024 (previous month of January 2025), January 2024 (previous year of January 2025), October 2024 (previous month of November 2024), November 2023 (previous year of November 2024), September 2024 (previous month of October 2024), October 2023 (previous year of October 2024).
+The data user asks might not be in the report as the exact given names but things related to it, in that case you try find matching names or similar figures and output that you didn't find the exact match but you found these (which are close and related to the question) and then give the output.
 
-6/ If the user's message is asking for a comparison or analysis of the previous month's values or the previous year's values always use the variance values related to that and the variance percentage as well. The variance is the difference between the current actual value and the previous (year/month) actual value, and the variance percentage is the variance divided by the previous value, multiplied by 100.
+6/ Try to give as much as context as possible as the conversational AI agent's response will completely depend on the response you give. When providing numbers or calculation results always provide the Ground Level attributes you got from the report as reference so it would be easier for the conversational AI agent to explain it to the user. But always give the final result or the total amount first and then go into details.
 
-7/ If the question is non related to previous year or the previous month only use the actual values (current month) for generating the output no need to get the variance values for the output.  
+7/ If the user's message is asking for a comparison or analysis of the previous month's values or the previous year's values always use the variance values related to that and the variance percentage as well. The variance is the difference between the current actual value and the previous (year/month) actual value, and the variance percentage is the variance divided by the previous value, multiplied by 100.
+
+8/ If the question is non related to previous year or the previous month only use the actual values (current month) for generating the output no need to get the variance values for the output.  
 
 this is the user's message ; {message}
 
@@ -117,7 +121,9 @@ I will share the relevant data that I got filtered from the ground level report 
 In this case explain to the user that the message is irrelevant and you are not able to provide any insights or information regarding this message as you only have access to the financial data of the january of the 2025, november, october of 2024 and the compared data of the previous month and the previous year of that each month seperately to that period but the user's message also can be on the company or the domain knowledge if so that becomes an exception.
 If the user's message is also irrelevant to any of this two and nothing related to the topic, then just simply tell the user that you are unable to help with this for your capabilities.
 
-5/ If you are giving a summary of something, like a total amount of a certain category that user specify, give a total amount or the sum that user has asked first but in this case give some key break down of which sub categories you used WITH NUMBERS related to the each category here secondly. giving numbers in this breakdown is really important if there is any.
+5/ If the relevant data the middle AI agent has given says the exact matching figures can not be found but it has found some close matching figures, then you should very precisley mention in a one starting paragraph that the phrase or the exact name that user has asked for is not found in the report but these are the closing matching figures you found and then give the output.
+
+6/ If you are giving a summary of something, like a total amount of a certain category that user specify, give a total amount or the sum that user has asked first but in this case give some key break down of which sub categories you used WITH NUMBERS related to the each category here secondly. giving numbers in this breakdown is really important if there is any.
 If this happenes also try to give the percentage in number next to the actual number as well. But if this breakdown goes very long in context give atleast 5 to 6 points and say etc in natural language.
 
 this is the user's message ; {message}
@@ -187,7 +193,7 @@ def return_example(idx):
     examples = {
         1: "What is the total value of my current assets for January 2025?",
         2: "Can you provide a summary of staff expenditures for January 2025?",
-        3: "Can you provide an analysis of the 'PIF - Public Investment Fund' based on the available information?",
+        3: "Why is the Hedge reserves category in Jan 2025 has reduced compared to Jan 2024?",
         4: "Can you provide a breakdown of all the Current Liability categories we have?",
         5: "Give me a short progress overview about my company"
     }
@@ -220,13 +226,13 @@ def main():
     with col2:
         st.button("Breakdown of Current Liabilities", key="btn4", on_click=lambda: (return_example(4), on_submit()), use_container_width=True)
     with col3:
-        st.button("Analyze PIF Account for 2025 Jan", key="btn3", on_click=lambda: (return_example(3), on_submit()), use_container_width=True)
+        st.button("Why Hedge Reserves has reduced", key="btn3", on_click=lambda: (return_example(3), on_submit()), use_container_width=True)
     
 
     # Second row of buttons
     col4, col5 = st.columns([1, 1])
     with col4:
-        st.button("Staff Spending Summary (Jan 2025)", key="btn2", on_click=lambda: (return_example(2), on_submit()), use_container_width=True)
+        st.button("Staff Spending Summary Jan 2025", key="btn2", on_click=lambda: (return_example(2), on_submit()), use_container_width=True)
     with col5:
         st.button("Brief Progress Overview of the Company", key="btn5", on_click=lambda: (return_example(5), on_submit()), use_container_width=True)
 
