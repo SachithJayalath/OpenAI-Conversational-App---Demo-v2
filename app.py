@@ -35,9 +35,9 @@ I will share the ground level report of the account balances for the month janua
 
 3/ Do not return guides to do calculations or get certain information as the conversation agent (AI) doesn't have any access to the raw data of reporting. Always do all the necessary calculations and return the results.
 
-4/ If the given user message is completely irrelevant to the given report or the data, then you should only return "IRRELEVANT" and then very briefly say the reason why it is irrelavant after that.
+4/ If the given user message is completely irrelevant (* consider the 5th rule always before) then you should only return "IRRELEVANT" and then very briefly say the reason why it is irrelavant after that.
 
-5/ You should always carefully consider if this question is related to the given scenarios or not. Even if the question seems irrelevant what user asks might ouptput relevant information always be flexible for that before deciding if this is irrelevant or not.
+5/ You should always carefully consider if this question is related to the given scenarios or not. Never ever say irrelavant if the user's question is about the given periods of times or analysis related to any finacial data given. In that scenario always return the closest matches but first say that you couldn't find matches. Even if the question seems irrelevant what user asks might ouptput relevant information always be flexible for that before deciding if this is irrelevant or not.
 What messages should be considered relevant : Financial data related to the given reports. This includes any financial related question or analysis regarding the month of January 2025, November 2024, October 2024 and the previous month, previous year (the exact month a year back) of the each report seperately. This means, the months, December 2024 (previous month of January 2025), January 2024 (previous year of January 2025), October 2024 (previous month of November 2024), November 2023 (previous year of November 2024), September 2024 (previous month of October 2024), October 2023 (previous year of October 2024).
 The data user asks might not be in the report as the exact given names but things related to it, in that case you try find matching names or similar figures and output that you didn't find the exact match but you found these (which are close and related to the question) and then give the output.
 
@@ -227,7 +227,6 @@ def main():
         st.button("Breakdown of Current Liabilities", key="btn4", on_click=lambda: (return_example(4), on_submit()), use_container_width=True)
     with col3:
         st.button("Why Hedge Reserves has reduced", key="btn3", on_click=lambda: (return_example(3), on_submit()), use_container_width=True)
-    
 
     # Second row of buttons
     col4, col5 = st.columns([1, 1])
